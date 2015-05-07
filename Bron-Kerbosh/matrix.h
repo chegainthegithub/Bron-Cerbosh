@@ -6,6 +6,7 @@
 using namespace std;
 
 class GMatrix{
+
     unsigned SIZE;
     unsigned int cliqueAmount;
     unsigned int amount_of_operations;
@@ -29,17 +30,38 @@ class GMatrix{
 
 
 public:
+    float getDifficulty()
+   {
+       difficulty = (amount_of_operations+0.0)/(cliqueAmount+0.0);
+       return difficulty;
+   }
 
+   void signal_inside()
+   {
+       std::cout << "inside"<<std::endl;
+   }
+   void signal_outside()
+   {
+       std::cout << "outside" << std::endl;
+   }
 
-    GMatrix()
+   void outputAnalytics()
+   {
+       std::cout <<"all "<< cliqueAmount<<" cliques were found after " << amount_of_operations << " operations" << std::endl;
+       std::cout <<"difficulty = operations / cliques  = "<< amount_of_operations << " / "<< cliqueAmount<<" = " << getDifficulty() << std :: endl;
+       return;
+   }
+
+    GMatrix():SIZE(1)
     {
-        SIZE = 0;
+        //SIZE = 1;
         cliqueAmount = 0;
         amount_of_operations = 0;
         difficulty = 0;
-//        vector<bool> line ;
-//        M.push_back(line);
-    };
+        vector<bool> line  ;
+        line.push_back(1);
+        M.push_back(line);
+    }
     GMatrix(GMatrix &)
     {
 
@@ -48,30 +70,53 @@ public:
     {
         M.clear();
     }
-    void add(vector<bool> & line)
-    {
-        M.push_back(line);
-        SIZE++;
-    }
+    void add(std::vector<bool> & line)
+        {
+            ++SIZE;
+            M.push_back(line);
+            for (unsigned i = 0; i < SIZE - 1; ++i)
+            {
+                M[i].push_back(line[i]);
+            }
+            M[SIZE - 1].push_back(true);
+        }
+
+
 //    void addSIZEtoOperations()
 //    {
 //        amount_of_operations_ += SIZE*SIZE;
 //    }
+
+    void out()
+        {
+            for (int i = 0; i < SIZE; ++i)
+            {
+                for (int j = 0; j < SIZE; ++j)
+                {
+                    std::cout << M[i][j] << ' ';
+                }
+                std::cout << std::endl;
+            }
+        }
+
+
 
     bool get(unsigned i1, unsigned j1)
     {
         return M[i1][j1];
     }
 
+
     void extend(set<unsigned>candidates, set<unsigned>Not,vector<set<unsigned> > &clicks,set<unsigned> &compsub)
     {
+        signal_inside();
         while (candidates.size() != 0 || is_here(candidates,Not))
         {
             //1
 //            if (compsub.size())
 //                     clicks.push_back(compsub);
             unsigned v = *(candidates.begin());
-            unsigned clone_v = v;
+            // unsigned clone_v = v;
             candidates.erase(candidates.begin());
             compsub.insert(v);
 
@@ -91,39 +136,33 @@ public:
             }
             //3
 
-            if (new_candidates.size() == 0 )
+            if (new_candidates.size() == 0 & new_not.size() == 0)
             //4
             {
                 clicks.push_back(compsub);
                 cliqueAmount++;
             }//5
             else
+            {
                 extend(new_candidates, new_not,clicks,compsub);
+                            clicks.push_back(compsub);
+                            cliqueAmount++;
+            }
             amount_of_operations++;
             candidates.erase(v);
             compsub.erase(v);
             Not.insert(v);
             //6
         }
-        amount_of_operations++;
-        if (compsub.size())
-        {
-            clicks.push_back(compsub);
-            cliqueAmount++;
-        }
-    }
-     float getDifficulty()
-    {
-        difficulty = (amount_of_operations+0.0)/(cliqueAmount+0.0);
-        return difficulty;
+        signal_outside();
+      //  amount_of_operations++;
+//          if (compsub.size())
+//        {
+//            clicks.push_back(compsub);
+//            cliqueAmount++;
+//        }
     }
 
-    void outputAnalytics()
-    {
-        std::cout <<"all "<< cliqueAmount<<" cliques were found after " << amount_of_operations << " operations" << std::endl;
-        std::cout <<"difficulty = operations / cliques  = "<< amount_of_operations << " / "<< cliqueAmount<<" = " << getDifficulty() << std :: endl;
-        return;
-    }
 };
 #endif // MATRIX_H
 
