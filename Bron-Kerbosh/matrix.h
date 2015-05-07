@@ -9,8 +9,7 @@ class GMatrix{
 
     unsigned SIZE;
     unsigned int cliqueAmount;
-    unsigned int amount_of_operations;
-    float difficulty;
+    unsigned int difficulty;
 
     vector<vector <bool> >M;
 
@@ -30,10 +29,10 @@ class GMatrix{
 
 
 public:
-    float getDifficulty()
+    float getDifficultyPerClique()
    {
-       difficulty = (amount_of_operations+0.0)/(cliqueAmount+0.0);
-       return difficulty;
+       float difficultyPerClique = (difficulty+0.0)/(cliqueAmount+0.0);
+       return difficultyPerClique;
    }
 
    void signal_inside()
@@ -47,8 +46,8 @@ public:
 
    void outputAnalytics()
    {
-       std::cout <<"all "<< cliqueAmount<<" cliques were found after " << amount_of_operations << " operations" << std::endl;
-       std::cout <<"difficulty = operations / cliques  = "<< amount_of_operations << " / "<< cliqueAmount<<" = " << getDifficulty() << std :: endl;
+       std::cout <<" Q = "<< cliqueAmount<<" , D = " << difficulty << " , N = " << SIZE << std::endl;
+       std::cout <<"c  = D / Q  = "<< difficulty << " / "<< cliqueAmount<<" = " << getDifficultyPerClique() << " = N + 1" << std :: endl;
        return;
    }
 
@@ -56,7 +55,6 @@ public:
     {
         //SIZE = 1;
         cliqueAmount = 0;
-        amount_of_operations = 0;
         difficulty = 0;
         vector<bool> line  ;
         line.push_back(1);
@@ -126,7 +124,7 @@ public:
             set<unsigned> new_not = Not;
             for (unsigned i = 0; i < SIZE; ++i)
             {
-                amount_of_operations++;
+                difficulty++;
                 if (M[i][v] == 0)
                 {
 
@@ -148,7 +146,7 @@ public:
                             cliques.push_back(compsub);
                             cliqueAmount++;
             }
-            amount_of_operations++;
+            difficulty++;
             candidates.erase(v);
             compsub.erase(v);
             Not.insert(v);
