@@ -109,7 +109,7 @@ public:
 
     void extend(set<unsigned>candidates, set<unsigned>Not,vector<set<unsigned> > &cliques,set<unsigned> &compsub)
     {
-        signal_inside();
+        //signal_inside();
         while (candidates.size() != 0 || is_here(candidates,Not))
         {
             //1
@@ -154,7 +154,7 @@ public:
             Not.insert(v);
             //6
         }
-        signal_outside();
+         // signal_outside();
       //  amount_of_operations++;
 //          if (compsub.size())
 //        {
