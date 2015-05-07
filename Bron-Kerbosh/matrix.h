@@ -107,7 +107,7 @@ public:
     }
 
 
-    void extend(set<unsigned>candidates, set<unsigned>Not,vector<set<unsigned> > &clicks,set<unsigned> &compsub)
+    void extend(set<unsigned>candidates, set<unsigned>Not,vector<set<unsigned> > &cliques,set<unsigned> &compsub)
     {
         signal_inside();
         while (candidates.size() != 0 || is_here(candidates,Not))
@@ -139,13 +139,13 @@ public:
             if (new_candidates.size() == 0 & new_not.size() == 0)
             //4
             {
-                clicks.push_back(compsub);
+                cliques.push_back(compsub);
                 cliqueAmount++;
             }//5
             else
             {
-                extend(new_candidates, new_not,clicks,compsub);
-                            clicks.push_back(compsub);
+                extend(new_candidates, new_not,cliques,compsub);
+                            cliques.push_back(compsub);
                             cliqueAmount++;
             }
             amount_of_operations++;
