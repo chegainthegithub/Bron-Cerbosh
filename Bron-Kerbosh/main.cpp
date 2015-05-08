@@ -56,7 +56,6 @@ while (true)
         cout << endl;
     }
     string answerYesNo = "";
-    //data.addSIZEtoOperations();
     data.outputAnalytics();
 
     cout << "do you want to save log ?"<<endl;

@@ -5,7 +5,8 @@
 #include <set>
 using namespace std;
 
-class GMatrix{
+class GMatrix
+{
 
     unsigned SIZE;
     unsigned int cliqueAmount;
@@ -17,12 +18,13 @@ class GMatrix{
     {
         for (set<unsigned>::const_iterator i = Not.begin(); i != Not.end(); ++i)
         {
-            bool g = 0;
+            bool check = 0;
             for (set<unsigned>::const_iterator j = candidates.begin(); j != candidates.end(); ++j)
             {
-                if (M[*i][*j] == 0)g = 1;
+                if (M[*i][*j] == 0)
+                    check = 1;
             }
-            if (g == 0) return 0;
+            if (!check) return 0;
         }
         return 1;
     }
@@ -48,21 +50,15 @@ public:
    {
        std::cout <<" Q = "<< cliqueAmount<<" , D = " << difficulty << " , N = " << SIZE << std::endl;
        std::cout <<"c  = D / Q  = "<< difficulty << " / "<< cliqueAmount<<" = " << getDifficultyPerClique() << " = N + 1" << std :: endl;
-       return;
    }
 
     GMatrix():SIZE(1)
     {
-        //SIZE = 1;
         cliqueAmount = 0;
         difficulty = 0;
         vector<bool> line  ;
         line.push_back(1);
         M.push_back(line);
-    }
-    GMatrix(GMatrix &)
-    {
-
     }
     ~GMatrix()
     {
@@ -79,12 +75,6 @@ public:
             M[SIZE - 1].push_back(true);
         }
 
-
-//    void addSIZEtoOperations()
-//    {
-//        amount_of_operations_ += SIZE*SIZE;
-//    }
-
     void out()
         {
             for (int i = 0; i < SIZE; ++i)
@@ -97,8 +87,6 @@ public:
             }
         }
 
-
-
     bool get(unsigned i1, unsigned j1)
     {
         return M[i1][j1];
@@ -110,15 +98,10 @@ public:
         //signal_inside();
         while (candidates.size() != 0 || is_here(candidates,Not))
         {
-            //1
-//            if (compsub.size())
-//                     clicks.push_back(compsub);
+
             unsigned v = *(candidates.begin());
-            // unsigned clone_v = v;
             candidates.erase(candidates.begin());
             compsub.insert(v);
-
-            //2
 
             set<unsigned> new_candidates = candidates;
             set<unsigned> new_not = Not;
@@ -132,33 +115,23 @@ public:
                     new_not.erase(i);
                 }
             }
-            //3
-
             if (new_candidates.size() == 0 & new_not.size() == 0)
-            //4
             {
                 cliques.push_back(compsub);
                 cliqueAmount++;
-            }//5
+            }
             else
             {
                 extend(new_candidates, new_not,cliques,compsub);
-                            cliques.push_back(compsub);
-                            cliqueAmount++;
+                cliques.push_back(compsub);
+                cliqueAmount++;
+              //signal_outside();
             }
             difficulty++;
             candidates.erase(v);
             compsub.erase(v);
             Not.insert(v);
-            //6
         }
-         // signal_outside();
-      //  amount_of_operations++;
-//          if (compsub.size())
-//        {
-//            clicks.push_back(compsub);
-//            cliqueAmount++;
-//        }
     }
 
 };
